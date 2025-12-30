@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found | STACKLY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --text-light: #f5f5f5;
+            --text-dark: #333;
+            --gray-light: #e0e0e0;
+            --gray-medium: #9e9e9e;
+            --gray-dark: #616161;
+            --white: #ffffff;
+            --black: #000000;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-radius: 8px;
+        }
+
+        .dark-mode {
+            --primary: #121212;
+            --secondary: #1e1e1e;
+            --accent: #2d2d2d;
+            --text-light: #f5f5f5;
+            --text-dark: #e0e0e0;
+            --gray-light: #424242;
+            --gray-medium: #616161;
+            --gray-dark: #9e9e9e;
+            --white: #1e1e1e;
+            --black: #f5f5f5;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+            transition: var(--transition);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .dark-mode h1, .dark-mode h2, .dark-mode h3, .dark-mode h4, .dark-mode h5, .dark-mode h6 {
+            color: var(--text-light);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--highlight);
+            color: var(--text-light);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--highlight);
+            color: var(--highlight);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--highlight);
+            color: var(--text-light);
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--primary);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            z-index: 1001;
+        }
+
+        .logo span {
+            color: var(--highlight);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--highlight);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--secondary);
+            border-radius: 30px;
+            padding: 5px 15px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            padding: 8px;
+            width: 200px;
+            outline: none;
+        }
+
+        .search-bar button {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        .theme-toggle, .mobile-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .mobile-toggle {
+            display: none;
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--secondary);
+            min-width: 200px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+            z-index: 100;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-menu li:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .dropdown-menu a:hover {
+            background-color: var(--accent);
+            padding-left: 25px;
+        }
+
+        /* Mobile Navigation Styles */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: var(--primary);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+                transition: var(--transition);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                z-index: 999;
+            }
+
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .mobile-toggle {
+                display: block;
+                z-index: 1001;
+            }
+
+            .nav-actions .btn {
+                display: none;
+            }
+
+            .search-bar {
+                display: none;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                background-color: transparent;
+                text-align: center;
+                margin-top: 15px;
+                display: none;
+            }
+
+            .dropdown.active .dropdown-menu {
+                display: block;
+            }
+
+            .dropdown-menu a {
+                padding: 10px 0;
+            }
+
+            .dropdown-menu a:hover {
+                padding-left: 0;
+                background-color: transparent;
+                color: var(--highlight);
+            }
+
+            .nav-link {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* 404 Error Section */
+        .error-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .error-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .error-icon {
+            font-size: 8rem;
+            color: var(--highlight);
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .error-title {
+            font-size: 6rem;
+            font-weight: 700;
+            color: var(--highlight);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .error-subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .dark-mode .error-subtitle {
+            color: var(--text-light);
+        }
+
+        .error-description {
+            font-size: 1.1rem;
+            color: var(--gray-medium);
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .search-suggestions {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-top: 30px;
+        }
+
+        .dark-mode .search-suggestions {
+            background-color: var(--secondary);
+        }
+
+        .suggestions-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .suggestions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .suggestion-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background-color: var(--gray-light);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .dark-mode .suggestion-card {
+            background-color: var(--accent);
+        }
+
+        .suggestion-card:hover {
+            background-color: var(--highlight);
+            color: var(--text-light);
+            transform: translateY(-3px);
+        }
+
+        .suggestion-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--white);
+            border-radius: 50%;
+            color: var(--highlight);
+        }
+
+        .dark-mode .suggestion-icon {
+            background-color: var(--primary);
+        }
+
+        .suggestion-card:hover .suggestion-icon {
+            background-color: var(--text-light);
+            color: var(--highlight);
+        }
+
+        .suggestion-content h4 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .suggestion-content p {
+            font-size: 0.8rem;
+            color: var(--gray-medium);
+        }
+
+        .suggestion-card:hover .suggestion-content p {
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 50px 0 20px;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        footer .footer-col h3, .footer-col h4 {
+            color: var(--text-light) !important;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--highlight);
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--highlight);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background-color: var(--highlight);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-dark);
+            font-size: 0.9rem;
+            color: var(--gray-medium);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .error-title {
+                font-size: 4rem;
+            }
+
+            .error-subtitle {
+                font-size: 1.5rem;
+            }
+
+            .error-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            @media (max-width: 768px) {
+    .nav-actions .btn {
+        display: inline-block !important;
+        padding: 8px 16px;
+        font-size: 1rem;
+    }
+}
+
+
+            .error-actions .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+
+            .suggestions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+
+            .error-title {
+                font-size: 3rem;
+            }
+
+            .error-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .error-icon {
+                font-size: 6rem;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container header-container">
+            <a href="./index.html" class="logo">STACK<span>LY</span></a>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="dropdown">
+                        <a href="./index.html" class="nav-link">Home <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./index.html">Home 1</a></li>
+                            <li><a href="./home2.html">Home 2</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="nav-link">Categories <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                             <li><a href="./lifestyle.html">Lifestyle</a></li>
+                            <li><a href="./entertainment.html">Entertainment</a></li>
+                            <li><a href="./sports.html">Sports</a></li>
+                            <li><a href="./world.html">World</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="./news.html" class="nav-link">News</a></li>
+                    <li><a href="./about.html" class="nav-link">About</a></li>
+                    <li><a href="./contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="./login.html" class="btn">Login</a>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 404 Error Section -->
+    <section class="error-section">
+        <div class="container error-container">
+            <div class="error-icon">
+                <i class="fas fa-newspaper"></i>
+            </div>
+            <h1 class="error-title">404</h1>
+            <h2 class="error-subtitle">Page Not Found</h2>
+            <p class="error-description">
+                We're sorry, but the page you are looking for doesn't exist or has been moved. 
+                It might have been removed, renamed, or is temporarily unavailable.
+            </p>
+            
+            <div class="error-actions">
+                <a href="home.html" class="btn">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+                <a href="home2.html" class="btn btn-outline">
+                    <i class="fas fa-newspaper"></i> Alternative Home
+                </a>
+                <button class="btn btn-outline" id="goBackBtn">
+                    <i class="fas fa-arrow-left"></i> Go Back
+                </button>
+            </div>
+
+            <div class="search-suggestions">
+                <h3 class="suggestions-title">You might be looking for:</h3>
+                <div class="suggestions-grid">
+                    <a href="./404.html" class="suggestion-card">
+                        <div class="suggestion-icon">
+                            <i class="fas fa-landmark"></i>
+                        </div>
+                        <div class="suggestion-content">
+                            <h4>Politics</h4>
+                            <p>Latest political news and analysis</p>
+                        </div>
+                    </a>
+                    <a href="entertainment.html" class="suggestion-card">
+                        <div class="suggestion-icon">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <div class="suggestion-content">
+                            <h4>Entertainment</h4>
+                            <p>Celebrity news, movies, and TV shows</p>
+                        </div>
+                    </a>
+                    <a href="news.html" class="suggestion-card">
+                        <div class="suggestion-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="suggestion-content">
+                            <h4>Latest News</h4>
+                            <p>Breaking news and current events</p>
+                        </div>
+                    </a>
+                    <a href="contact.html" class="suggestion-card">
+                        <div class="suggestion-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="suggestion-content">
+                            <h4>Contact Us</h4>
+                            <p>Get in touch with our team</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>STACKLY</h3>
+                    <p>Your trusted source for the latest news, insights, and stories from around the world. Delivering accurate and timely journalism since 2025.</p>
+                    <div class="social-links">
+                        <a href="./404.html" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="./404.html" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="./404.html" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="./404.html" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="./404.html" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="home2.html">Home Style 2</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="./lifestyle.html">Lifestyle</a></li>
+                            <li><a href="./entertainment.html">Entertainment</a></li>
+                            <li><a href="./sports.html">Sports</a></li>
+                            <li><a href="./world.html">World</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Address</h4>
+                                <p>Salem, Tamil Nadu, India</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Phone</h4>
+                                <p>9876543210</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Email</h4>
+                                <p>info@stackly.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 STACKLY Newspaper Pvt. Ltd. — All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.querySelector('.nav-menu');
+        const dropdowns = document.querySelectorAll('.dropdown');
+        const goBackBtn = document.getElementById('goBackBtn');
+
+        // Dark Mode Toggle
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+
+        // Mobile Menu Toggle
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const icon = mobileToggle.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Dropdown functionality for mobile
+        dropdowns.forEach(dropdown => {
+            const link = dropdown.querySelector('.nav-link');
+            
+            // Toggle dropdown on click (mobile)
+            link.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    dropdown.classList.toggle('active');
+                    
+                    // Close other dropdowns
+                    dropdowns.forEach(otherDropdown => {
+                        if (otherDropdown !== dropdown) {
+                            otherDropdown.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !e.target.closest('.nav-menu') && 
+                !e.target.closest('.mobile-toggle')) {
+                navMenu.classList.remove('active');
+                const icon = mobileToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                
+                // Close all dropdowns
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+
+        // Go Back Button
+        goBackBtn.addEventListener('click', () => {
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                window.location.href = 'home.html';
+            }
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-bar input');
+        const searchButton = document.querySelector('.search-bar button');
+
+        searchButton.addEventListener('click', () => {
+            performSearch();
+        });
+
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        function performSearch() {
+            const query = searchInput.value.trim();
+            if (query) {
+                // In a real application, this would redirect to search results
+                alert(`Searching for: "${query}"\n\nIn a real application, this would redirect to search results.`);
+                searchInput.value = '';
+            }
+        }
+
+        // Scroll Animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        fadeElements.forEach(el => observer.observe(el));
+
+        // Close mobile menu on resize if window becomes larger
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navMenu.classList.remove('active');
+                const icon = mobileToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                
+                // Close all dropdowns
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+
+        // Add some dynamic behavior to the 404 page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add a typing effect to the error description
+            const errorDescription = document.querySelector('.error-description');
+            const originalText = errorDescription.textContent;
+            errorDescription.textContent = '';
+            
+            let i = 0;
+            const typeWriter = () => {
+                if (i < originalText.length) {
+                    errorDescription.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 30);
+                }
+            };
+            
+            // Start typing effect after a short delay
+            setTimeout(typeWriter, 1000);
+        });
+    </script>
+</body>
+</html>

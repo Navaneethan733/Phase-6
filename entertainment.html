@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entertainment News | STACKLY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --entertainment: #9c27b0;
+            --text-light: #f5f5f5;
+            --text-dark: #333;
+            --gray-light: #e0e0e0;
+            --gray-medium: #9e9e9e;
+            --gray-dark: #616161;
+            --white: #ffffff;
+            --black: #000000;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-radius: 8px;
+        }
+
+        .dark-mode {
+            --primary: #121212;
+            --secondary: #1e1e1e;
+            --accent: #2d2d2d;
+            --entertainment: #7b1fa2;
+            --text-light: #f5f5f5;
+            --text-dark: #e0e0e0;
+            --gray-light: #424242;
+            --gray-medium: #616161;
+            --gray-dark: #9e9e9e;
+            --white: #1e1e1e;
+            --black: #f5f5f5;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+            transition: var(--transition);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .dark-mode h1, .dark-mode h2, .dark-mode h3, .dark-mode h4, .dark-mode h5, .dark-mode h6 {
+            color: var(--text-light);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--entertainment);
+            color: var(--text-light);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--entertainment);
+            color: var(--entertainment);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--entertainment);
+            color: var(--text-light);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--entertainment);
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--primary);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            z-index: 1001;
+        }
+
+        .logo span {
+            color: var(--highlight);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-link.active {
+            color: var(--highlight);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--highlight);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--secondary);
+            border-radius: 30px;
+            padding: 5px 15px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            padding: 8px;
+            width: 200px;
+            outline: none;
+        }
+
+        .search-bar button {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        .theme-toggle, .mobile-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .mobile-toggle {
+            display: none;
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--secondary);
+            min-width: 200px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+            z-index: 100;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-menu li:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .dropdown-menu a:hover {
+            background-color: var(--accent);
+            padding-left: 25px;
+        }
+
+        /* Mobile Navigation Styles */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: var(--primary);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+                transition: var(--transition);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                z-index: 999;
+            }
+
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .mobile-toggle {
+                display: block;
+                z-index: 1001;
+            }
+
+            .nav-actions .btn {
+                display: none;
+            }
+
+            .search-bar {
+                display: none;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                background-color: transparent;
+                text-align: center;
+                margin-top: 15px;
+                display: none;
+            }
+
+            .dropdown.active .dropdown-menu {
+                display: block;
+            }
+
+            .dropdown-menu a {
+                padding: 10px 0;
+            }
+
+            .dropdown-menu a:hover {
+                padding-left: 0;
+                background-color: transparent;
+                color: var(--highlight);
+            }
+
+            .nav-link {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Breaking News Ticker */
+        .breaking-news {
+            background-color: var(--entertainment);
+            color: var(--text-light);
+            padding: 10px 0;
+            overflow: hidden;
+        }
+
+        .breaking-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .breaking-label {
+            background-color: var(--primary);
+            padding: 5px 15px;
+            font-weight: 700;
+            margin-right: 20px;
+            white-space: nowrap;
+        }
+
+        .ticker {
+            overflow: hidden;
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .ticker-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(156, 39, 176, 0.8), rgba(156, 39, 176, 0.8)), url('https://source.unsplash.com/random/1200x400/?entertainment');
+            background-size: cover;
+            background-position: center;
+            color: var(--text-light);
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Entertainment Filter */
+        .entertainment-filter {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+
+        .dark-mode .entertainment-filter {
+            background-color: var(--secondary);
+        }
+
+        .filter-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-option {
+            padding: 8px 20px;
+            background-color: var(--gray-light);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .filter-option.active, .filter-option:hover {
+            background-color: var(--entertainment);
+            color: var(--text-light);
+        }
+
+        /* Entertainment Grid */
+        .entertainment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .entertainment-card {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            background-color: var(--white);
+        }
+
+        .dark-mode .entertainment-card {
+            background-color: var(--secondary);
+        }
+
+        .entertainment-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .entertainment-img {
+            height: 220px;
+            background-color: var(--gray-light);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .entertainment-content {
+            padding: 25px;
+        }
+
+        .entertainment-category {
+            display: inline-block;
+            background-color: var(--entertainment);
+            color: var(--text-light);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .entertainment-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .entertainment-excerpt {
+            color: var(--gray-medium);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .entertainment-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--gray-dark);
+        }
+
+        /* Featured Entertainment */
+        .featured-entertainment {
+            margin-bottom: 40px;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .featured-main {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .featured-main-img {
+            height: 400px;
+            background-color: var(--gray-light);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .featured-main-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: var(--text-light);
+            padding: 30px;
+        }
+
+        .featured-main-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .featured-side {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .featured-side-item {
+            display: flex;
+            gap: 15px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .featured-side-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .featured-side-img {
+            width: 100px;
+            height: 80px;
+            border-radius: var(--border-radius);
+            background-color: var(--gray-light);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .featured-side-content h3 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .featured-side-content .post-date {
+            font-size: 0.8rem;
+            color: var(--gray-dark);
+        }
+
+        /* Celebrity Spotlight */
+        .celebrity-spotlight {
+            margin-bottom: 40px;
+        }
+
+        .celebrities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .celebrity-card {
+            text-align: center;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .dark-mode .celebrity-card {
+            background-color: var(--secondary);
+        }
+
+        .celebrity-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .celebrity-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--gray-light);
+            background-size: cover;
+            background-position: center;
+            margin: 0 auto 15px;
+            border: 3px solid var(--entertainment);
+        }
+
+        .celebrity-name {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .celebrity-role {
+            color: var(--entertainment);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .celebrity-bio {
+            color: var(--gray-medium);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Upcoming Releases */
+        .upcoming-releases {
+            margin-bottom: 40px;
+        }
+
+        .releases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .release-card {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            background-color: var(--white);
+        }
+
+        .dark-mode .release-card {
+            background-color: var(--secondary);
+        }
+
+        .release-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .release-img {
+            height: 180px;
+            background-color: var(--gray-light);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .release-content {
+            padding: 20px;
+        }
+
+        .release-type {
+            display: inline-block;
+            background-color: var(--entertainment);
+            color: var(--text-light);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .release-title {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .release-date {
+            color: var(--entertainment);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .release-desc {
+            color: var(--gray-medium);
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        /* Sidebar */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .sidebar-widget {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .dark-mode .sidebar-widget {
+            background-color: var(--secondary);
+        }
+
+        .widget-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .recent-post {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .recent-post:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .recent-img {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--border-radius);
+            background-color: var(--gray-light);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .recent-content h4 {
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+
+        .recent-content .post-date {
+            font-size: 0.8rem;
+            color: var(--gray-dark);
+        }
+
+        .popular-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            background-color: var(--gray-light);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .tag:hover {
+            background-color: var(--entertainment);
+            color: var(--text-light);
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            padding: 10px 15px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            background-color: var(--white);
+            color: var(--text-dark);
+            transition: var(--transition);
+        }
+
+        .dark-mode .form-group input {
+            background-color: var(--accent);
+            border-color: var(--gray-medium);
+            color: var(--text-light);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--entertainment);
+        }
+
+        .ad-banner {
+            height: 250px;
+            background-color: var(--gray-light);
+            border-radius: var(--border-radius);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            color: var(--gray-dark);
+        }
+
+        /* Poll Styles */
+        .poll-container {
+            margin-bottom: 20px;
+        }
+
+        .poll-option {
+            margin-bottom: 10px;
+        }
+
+        .poll-bar {
+            height: 8px;
+            background-color: var(--gray-light);
+            border-radius: 4px;
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
+
+        .poll-fill {
+            height: 100%;
+            background-color: var(--entertainment);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 40px 0;
+        }
+
+        .page-item {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--white);
+            color: var(--text-dark);
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .dark-mode .page-item {
+            background-color: var(--secondary);
+            color: var(--text-light);
+        }
+
+        .page-item.active, .page-item:hover {
+            background-color: var(--entertainment);
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 50px 0 20px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        footer .footer-col h3, .footer-col h4 {
+            color: var(--text-light) !important;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--highlight);
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--highlight);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background-color: var(--highlight);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-dark);
+            font-size: 0.9rem;
+            color: var(--gray-medium);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            @media (max-width: 768px) {
+    .nav-actions .btn {
+        display: inline-block !important;
+        padding: 8px 16px;
+        font-size: 1rem;
+    }
+}
+
+
+            .page-title {
+                font-size: 2.2rem;
+            }
+
+            .entertainment-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .filter-options {
+                justify-content: center;
+            }
+
+            .celebrities-grid, .releases-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .zoom-on-hover {
+            transition: transform 0.3s ease;
+        }
+
+        .zoom-on-hover:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container header-container">
+            <a href="./index.html" class="logo">STACK<span>LY</span></a>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="dropdown">
+                        <a href="./index.html" class="nav-link">Home <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./index.html">Home 1</a></li>
+                            <li><a href="./home2.html">Home 2</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="nav-link">Categories <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                             <li><a href="./lifestyle.html">Lifestyle</a></li>
+                            <li><a href="./entertainment.html" class="active">Entertainment</a></li>
+                            <li><a href="./sports.html">Sports</a></li>
+                            <li><a href="./world.html">World</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="./news.html" class="nav-link">News</a></li>
+                    <li><a href="./about.html" class="nav-link">About</a></li>
+                    <li><a href="./contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="login.html" class="btn">Login</a>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breaking News Ticker -->
+    <section class="breaking-news">
+        <div class="container breaking-container">
+            <div class="breaking-label">ENTERTAINMENT NEWS</div>
+            <div class="ticker">
+                <div class="ticker-content">
+                    Award-Winning Director Announces New Sci-Fi Epic • Music Superstar Drops Surprise Album • Streaming Service Reveals Most-Watched Shows of 2025 • Celebrity Couple Announces Pregnancy at Red Carpet Event • Blockbuster Sequel Breaks Opening Weekend Records
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Entertainment</h1>
+            <p class="page-subtitle">Your ultimate source for celebrity news, movie reviews, music releases, TV shows, and all things entertainment. Stay in the know with the latest from Hollywood and beyond.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="main-content">
+            <!-- Entertainment Content -->
+            <div class="content-left">
+
+                <!-- Featured Entertainment -->
+                <section class="featured-entertainment">
+                    <h2 class="section-title">Featured Stories</h2>
+                    <div class="featured-grid">
+                        <div class="featured-main">
+                            <div class="featured-main-img" style="background-image: url('./images/lockbuster\ Sequel\ Smashes\ Box\ Office\ Records\ With\ $250M\ Opening.webp')"></div>
+                            <div class="featured-main-content">
+                                <span class="entertainment-category">Movies</span>
+                                <h2 class="featured-main-title">Blockbuster Sequel Smashes Box Office Records With $250M Opening</h2>
+                                <div class="entertainment-meta">
+                                    <span><i class="far fa-user"></i> Jessica Lee</span>
+                                    <span><i class="far fa-clock"></i> 6 hours ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="featured-side">
+                            <div class="featured-side-item">
+                                <div class="featured-side-img" style="background-image: url('./images/Chart-Topping\ Artist\ Drops\ Surprise\ Collaborative\ Album\ \(1\).webp')"></div>
+                                <div class="featured-side-content">
+                                    <h3>Global Music Tour Announced With 50-Date International Schedule</h3>
+                                    <span class="post-date">8 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="featured-side-item">
+                                <div class="featured-side-img" style="background-image: url('./images/China\ Reports\ Strong\ Economic.webp')"></div>
+                                <div class="featured-side-content">
+                                    <h3>Critically Acclaimed Series Renewed for Final Season</h3>
+                                    <span class="post-date">1 day ago</span>
+                                </div>
+                            </div>
+                            <div class="featured-side-item">
+                                <div class="featured-side-img" style="background-image: url('./images/9541fe6b-5676-46c7-b357-385826fe125d.webp')"></div>
+                                <div class="featured-side-content">
+                                    <h3>A-List Actor Confirms Relationship With Co-Star</h3>
+                                    <span class="post-date">1 day ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Entertainment Grid -->
+                <section class="entertainment-news">
+                    <h2 class="section-title">Latest Entertainment News</h2>
+                    <div class="entertainment-grid">
+                        <article class="entertainment-card zoom-on-hover" data-category="movies">
+                            <div class="entertainment-img" style="background-image: url('./images/Oscar-Winning\ Director\ Reveals\ Details\ About\ Upcoming\ Historical\ Drama.webp')"></div>
+                            <div class="entertainment-content">
+                                <span class="entertainment-category">Movies</span>
+                                <h3 class="entertainment-title">Oscar-Winning Director Reveals Details About Upcoming Historical Drama</h3>
+                                <p class="entertainment-excerpt">The acclaimed filmmaker shared insights about the casting process and historical research behind the highly anticipated period piece set to release next fall.</p>
+                                <div class="entertainment-meta">
+                                    <span><i class="far fa-user"></i> Michael Brown</span>
+                                    <span><i class="far fa-clock"></i> 10 hours ago</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="entertainment-card zoom-on-hover" data-category="tv">
+                            <div class="entertainment-img" style="background-image: url('./images/Streaming\ Giant\ Announces\ 10\ New\ Original\ Series\ for\ 2025.webp')"></div>
+                            <div class="entertainment-content">
+                                <span class="entertainment-category">TV Shows</span>
+                                <h3 class="entertainment-title">Streaming Giant Announces 10 New Original Series for 2025</h3>
+                                <p class="entertainment-excerpt">The platform revealed an ambitious slate of programming including dramas, comedies, and documentaries from award-winning creators and emerging talent.</p>
+                                <div class="entertainment-meta">
+                                    <span><i class="far fa-user"></i> Sarah Johnson</span>
+                                    <span><i class="far fa-clock"></i> 1 day ago</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="entertainment-card zoom-on-hover" data-category="music">
+                            <div class="entertainment-img" style="background-image: url('./images/Chart-Topping\ Artist\ Drops\ Surprise\ Collaborative\ Album\ \(1\).webp')"></div>
+                            <div class="entertainment-content">
+                                <span class="entertainment-category">Music</span>
+                                <h3 class="entertainment-title">Chart-Topping Artist Drops Surprise Collaborative Album</h3>
+                                <p class="entertainment-excerpt">The musician released an unexpected project featuring collaborations with multiple Grammy-winning artists, breaking streaming records within hours.</p>
+                                <div class="entertainment-meta">
+                                    <span><i class="far fa-user"></i> David Chen</span>
+                                    <span><i class="far fa-clock"></i> 1 day ago</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="entertainment-card zoom-on-hover" data-category="celebrities">
+                            <div class="entertainment-img" style="background-image: url('./images/Hollywood\ Power\ Couple\ Announces\ Charity\ Foundation\ Launch.webp')"></div>
+                            <div class="entertainment-content">
+                                <span class="entertainment-category">Celebrities</span>
+                                <h3 class="entertainment-title">Hollywood Power Couple Announces Charity Foundation Launch</h3>
+                                <p class="entertainment-excerpt">The famous pair revealed plans for a new organization focused on environmental conservation, pledging $50 million of their own money to the cause.</p>
+                                <div class="entertainment-meta">
+                                    <span><i class="far fa-user"></i> Maria Rodriguez</span>
+                                    <span><i class="far fa-clock"></i> 2 days ago</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="entertainment-card zoom-on-hover" data-category="awards">
+                            <div class="entertainment-img" style="background-image: url('./images/Annual\ Film\ Festival\ Announces\ Competition\ Lineup\ and\ Jury.webp')"></div>
+                            <div class="entertainment-content">
+                                <span class="entertainment-category">Awards</span>
+                                <h3 class="entertainment-title">Annual Film Festival Announces Competition Lineup and Jury</h3>
+                                <p class="entertainment-excerpt">The prestigious event revealed the 15 films selected for competition and the panel of internationally renowned filmmakers who will judge them.</p>
+                                <div class="entertainment-meta">
+                                    <span><i class="far fa-user"></i> James Wilson</span>
+                                    <span><i class="far fa-clock"></i> 2 days ago</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="entertainment-card zoom-on-hover" data-category="movies">
+                            <div class="entertainment-img" style="background-image: url('./images/Behind\ the\ Scenes.webp')"></div>
+                            <div class="entertainment-content">
+                                <span class="entertainment-category">Movies</span>
+                                <h3 class="entertainment-title">Behind the Scenes: The Visual Effects Magic of Latest Sci-Fi Hit</h3>
+                                <p class="entertainment-excerpt">VFX supervisors break down the groundbreaking techniques used to create the film's stunning visuals, which required over two years of post-production work.</p>
+                                <div class="entertainment-meta">
+                                    <span><i class="far fa-user"></i> Lisa Thompson</span>
+                                    <span><i class="far fa-clock"></i> 3 days ago</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- Celebrity Spotlight -->
+                <section class="celebrity-spotlight">
+                    <h2 class="section-title">Celebrity Spotlight</h2>
+                    <div class="celebrities-grid">
+                        <div class="celebrity-card zoom-on-hover">
+                            <div class="celebrity-avatar" style="background-image: url('./images/Alexandra\ Chen.webp')"></div>
+                            <h3 class="celebrity-name">Alexandra Chen</h3>
+                            <div class="celebrity-role">Award-Winning Actress</div>
+                            <p class="celebrity-bio">Recently starred in the critically acclaimed drama "Echoes of Time." Next appearing in the upcoming sci-fi blockbuster "Horizon's Edge."</p>
+                        </div>
+                        <div class="celebrity-card zoom-on-hover">
+                            <div class="celebrity-avatar" style="background-image: url('./images/9541fe6b-5676-46c7-b357-385826fe125d.webp')"></div>
+                            <h3 class="celebrity-name">Marcus Rivers</h3>
+                            <div class="celebrity-role">Chart-Topping Musician</div>
+                            <p class="celebrity-bio">Recently released his fourth studio album "Midnight Dreams." Announced a 50-city world tour starting next month.</p>
+                        </div>
+                        <div class="celebrity-card zoom-on-hover">
+                            <div class="celebrity-avatar" style="background-image: url('./images/Sophia Rodriguez.webp')"></div>
+                            <h3 class="celebrity-name">Sophia Rodriguez</h3>
+                            <div class="celebrity-role">Acclaimed Director</div>
+                            <p class="celebrity-bio">Her latest film received standing ovation at Cannes. Currently developing a limited series for a major streaming platform.</p>
+                        </div>
+                        <div class="celebrity-card zoom-on-hover">
+                            <div class="celebrity-avatar" style="background-image: url('./images/Jordan\ Williams.webp')"></div>
+                            <h3 class="celebrity-name">Jordan Williams</h3>
+                            <div class="celebrity-role">Comedian & Actor</div>
+                            <p class="celebrity-bio">Star of the hit sitcom "Urban Legends." Recently signed a multi-picture deal with a major studio for upcoming comedy films.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Upcoming Releases -->
+                <section class="upcoming-releases">
+                    <h2 class="section-title">Upcoming Releases</h2>
+                    <div class="releases-grid">
+                        <div class="release-card zoom-on-hover">
+                            <div class="release-img" style="background-image: url('./images/Guardians\ of\ Destiny.webp')"></div>
+                            <div class="release-content">
+                                <span class="release-type">Movie</span>
+                                <h3 class="release-title">Guardians of Destiny</h3>
+                                <div class="release-date">June 15, 2025</div>
+                                <p class="release-desc">Action-packed fantasy adventure featuring an ensemble cast of A-list actors.</p>
+                            </div>
+                        </div>
+                        <div class="release-card zoom-on-hover">
+                            <div class="release-img" style="background-image: url('./images/Chart-Topping\ Artist\ Drops\ Surprise\ Collaborative\ Album\ \(1\).webp')"></div>
+                            <div class="release-content">
+                                <span class="release-type">Music</span>
+                                <h3 class="release-title">Echoes in the Silence</h3>
+                                <div class="release-date">July 2, 2025</div>
+                                <p class="release-desc">Highly anticipated third studio album from the Grammy-winning artist.</p>
+                            </div>
+                        </div>
+                        <div class="release-card zoom-on-hover">
+                            <div class="release-img" style="background-image: url('./images/Shadow\ Games.webp')"></div>
+                            <div class="release-content">
+                                <span class="release-type">TV Series</span>
+                                <h3 class="release-title">Shadow Games</h3>
+                                <div class="release-date">August 10, 2025</div>
+                                <p class="release-desc">Political thriller series from the creator of the award-winning "Dark Waters."</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <a href="#" class="page-item active">1</a>
+                    <a href="./404.html" class="page-item">2</a>
+                    <a href="./404.html" class="page-item">3</a>
+                    <a href="./404.html" class="page-item">4</a>
+                    <a href="./404.html" class="page-item">5</a>
+                    <a href="./404.html" class="page-item"><i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Entertainment Poll</h3>
+                    <div class="poll-container">
+                        <h4>What's your favorite streaming service?</h4>
+                        <div class="poll-options">
+                            <div class="poll-option">
+                                <div class="poll-bar">
+                                    <div class="poll-fill" style="width: 35%"></div>
+                                </div>
+                                <span>StreamFlix (35%)</span>
+                            </div>
+                            <div class="poll-option">
+                                <div class="poll-bar">
+                                    <div class="poll-fill" style="width: 28%"></div>
+                                </div>
+                                <span>Prime Vision (28%)</span>
+                            </div>
+                            <div class="poll-option">
+                                <div class="poll-bar">
+                                    <div class="poll-fill" style="width: 22%"></div>
+                                </div>
+                                <span>Disney+ (22%)</span>
+                            </div>
+                            <div class="poll-option">
+                                <div class="poll-bar">
+                                    <div class="poll-fill" style="width: 15%"></div>
+                                </div>
+                                <span>HBO Max (15%)</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline" style="margin-top: 15px; width: 100%;">Vote Now</button>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Trending in Entertainment</h3>
+                    <div class="recent-posts">
+                        <div class="recent-post">
+                            <div class="recent-img" style="background-image: url('./images/Behind\ the\ Scenes.webp')"></div>
+                            <div class="recent-content">
+                                <h4>Behind the Scenes of the Year's Biggest Music Video</h4>
+                                <span class="post-date">5 hours ago</span>
+                            </div>
+                        </div>
+                        <div class="recent-post">
+                            <div class="recent-img" style="background-image: url('./images/exclusive\ interview.webp')"></div>
+                            <div class="recent-content">
+                                <h4>Exclusive Interview With Award-Winning Film Director</h4>
+                                <span class="post-date">1 day ago</span>
+                            </div>
+                        </div>
+                        <div class="recent-post">
+                            <div class="recent-img" style="background-image: url('./images/First\ Look\ at\ Highly\ Anticipated\ Video\ Game\ Adaptation.webp')"></div>
+                            <div class="recent-content">
+                                <h4>First Look at Highly Anticipated Video Game Adaptation</h4>
+                                <span class="post-date">2 days ago</span>
+                            </div>
+                        </div>
+                        <div class="recent-post">
+                            <div class="recent-img" style="background-image: url('./images/Fashion\ Highlights\ From\ Music\ Awards\ Red\ Carpet.webp')"></div>
+                            <div class="recent-content">
+                                <h4>Fashion Highlights From Music Awards Red Carpet</h4>
+                                <span class="post-date">3 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Entertainment Tags</h3>
+                    <div class="popular-tags">
+                        <a href="./404.html" class="tag">Movies</a>
+                        <a href="./404.html" class="tag">TV Shows</a>
+                        <a href="./404.html" class="tag">Music</a>
+                        <a href="./404.html" class="tag">Celebrities</a>
+                        <a href="./404.html" class="tag">Awards</a>
+                        <a href="./404.html" class="tag">Streaming</a>
+                        <a href="./404.html" class="tag">Hollywood</a>
+                        <a href="./404.html" class="tag">Premiere</a>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Entertainment Newsletter</h3>
+                    <p>Get the latest entertainment news, celebrity gossip, and release dates delivered to your inbox.</p>
+                    <form class="newsletter-form">
+                        <div class="form-group">
+                            <input type="email" placeholder="Your email address" required>
+                        </div>
+                        <button type="submit" class="btn">Subscribe</button>
+                    </form>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>STACKLY</h3>
+                    <p>Your trusted source for the latest news, insights, and stories from around the world. Delivering accurate and timely journalism since 2025.</p>
+                    <div class="social-links">
+                        <a href="./404.html" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="./404.html" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="./404.html" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="./404.html" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="./404.html" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="home2.html">Home Style 2</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                         <li><a href="./lifestyle.html">Lifestyle</a></li>
+                            <li><a href="./entertainment.html">Entertainment</a></li>
+                            <li><a href="./sports.html">Sports</a></li>
+                            <li><a href="./world.html">World</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Address</h4>
+                                <p>Salem, Tamil Nadu, India</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Phone</h4>
+                                <p>9876543210</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Email</h4>
+                                <p>info@stackly.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 STACKLY Newspaper Pvt. Ltd. — All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.querySelector('.nav-menu');
+        const dropdowns = document.querySelectorAll('.dropdown');
+        const filterOptions = document.querySelectorAll('.filter-option');
+        const entertainmentCards = document.querySelectorAll('.entertainment-card');
+
+        // Dark Mode Toggle
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+
+        // Mobile Menu Toggle
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const icon = mobileToggle.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Dropdown functionality for mobile
+        dropdowns.forEach(dropdown => {
+            const link = dropdown.querySelector('.nav-link');
+            
+            // Toggle dropdown on click (mobile)
+            link.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    dropdown.classList.toggle('active');
+                    
+                    // Close other dropdowns
+                    dropdowns.forEach(otherDropdown => {
+                        if (otherDropdown !== dropdown) {
+                            otherDropdown.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !e.target.closest('.nav-menu') && 
+                !e.target.closest('.mobile-toggle')) {
+                navMenu.classList.remove('active');
+                const icon = mobileToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                
+                // Close all dropdowns
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+
+        // Entertainment Filter
+        filterOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove active class from all options
+                filterOptions.forEach(opt => opt.classList.remove('active'));
+                // Add active class to clicked option
+                option.classList.add('active');
+                
+                const filterValue = option.getAttribute('data-filter');
+                
+                // Filter entertainment cards
+                entertainmentCards.forEach(card => {
+                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Close mobile menu on resize if window becomes larger
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navMenu.classList.remove('active');
+                const icon = mobileToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                
+                // Close all dropdowns
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+
+        // Scroll Animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        fadeElements.forEach(el => observer.observe(el));
+
+        // Form Validation
+        const forms = document.querySelectorAll('form');
+        
+        forms.forEach(form => {
+            form.addEventListener('submit', (e) => {
+                let isValid = true;
+                const inputs = form.querySelectorAll('input[required]');
+                
+                inputs.forEach(input => {
+                    if (!input.value.trim()) {
+                        isValid = false;
+                        input.style.borderColor = 'red';
+                    } else {
+                        input.style.borderColor = '';
+                    }
+                });
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    alert('Please fill in all required fields.');
+                } else {
+                    // In a real application, you would submit the form here
+                    e.preventDefault();
+                    alert('Thank you for subscribing to our entertainment newsletter!');
+                    form.reset();
+                }
+            });
+        });
+
+        // Poll voting functionality
+        const voteButton = document.querySelector('.btn-outline');
+        if (voteButton) {
+            voteButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Thank you for voting in our entertainment poll!');
+            });
+        }
+    </script>
+</body>
+</html>

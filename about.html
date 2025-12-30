@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - STACKLY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --text-light: #f5f5f5;
+            --text-dark: #333;
+            --gray-light: #e0e0e0;
+            --gray-medium: #9e9e9e;
+            --gray-dark: #616161;
+            --white: #ffffff;
+            --black: #000000;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-radius: 8px;
+        }
+
+        .dark-mode {
+            --primary: #121212;
+            --secondary: #1e1e1e;
+            --accent: #2d2d2d;
+            --text-light: #f5f5f5;
+            --text-dark: #e0e0e0;
+            --gray-light: #424242;
+            --gray-medium: #616161;
+            --gray-dark: #9e9e9e;
+            --white: #1e1e1e;
+            --black: #f5f5f5;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .dark-mode h1, .dark-mode h2, .dark-mode h3, .dark-mode h4, .dark-mode h5, .dark-mode h6 {
+            color: var(--text-light);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--highlight);
+            color: var(--text-light);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--highlight);
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--primary);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            width: 100%;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            z-index: 1001;
+        }
+
+        .logo span {
+            color: var(--highlight);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-link.active {
+            color: var(--highlight);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--highlight);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--secondary);
+            border-radius: 30px;
+            padding: 5px 15px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            padding: 8px;
+            width: 200px;
+            outline: none;
+        }
+
+        .search-bar button {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        .theme-toggle, .mobile-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .mobile-toggle {
+            display: none;
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--secondary);
+            min-width: 200px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+            z-index: 100;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-menu li:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .dropdown-menu a:hover {
+            background-color: var(--accent);
+            padding-left: 25px;
+        }
+
+        /* Mobile Navigation Styles */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: var(--primary);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+                transition: var(--transition);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                z-index: 999;
+                padding: 20px;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .mobile-toggle {
+                display: block;
+                z-index: 1001;
+            }
+
+            .nav-actions .btn {
+                display: none;
+            }
+
+            .search-bar {
+                display: none;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                background-color: transparent;
+                text-align: center;
+                margin-top: 15px;
+                display: none;
+                width: 100%;
+            }
+
+            .dropdown.active .dropdown-menu {
+                display: block;
+            }
+
+            .dropdown-menu a {
+                padding: 10px 0;
+            }
+
+            .dropdown-menu a:hover {
+                padding-left: 0;
+                background-color: transparent;
+                color: var(--highlight);
+            }
+
+            .nav-link {
+                font-size: 1.2rem;
+            }
+            
+            /* Reduced gap between logo and menu toggle */
+            .header-container {
+                padding: 12px 0;
+            }
+            
+            .nav-actions {
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+
+            .search-bar {
+                order: 3;
+                width: 100%;
+                margin-top: 15px;
+                display: none;
+            }
+
+            .search-bar.active {
+                display: flex;
+            }
+
+            .search-bar input {
+                width: 100%;
+            }
+            
+            /* Further reduced gap for very small screens */
+            .header-container {
+                padding: 10px 0;
+            }
+            
+            .nav-actions {
+                gap: 8px;
+            }
+            
+            .logo {
+                font-size: 1.6rem;
+            }
+            
+            .mobile-toggle {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            /* Minimal gap for smallest screens */
+            .header-container {
+                padding: 8px 0;
+            }
+            
+            .nav-actions {
+                gap: 6px;
+            }
+        }
+
+        /* Breaking News Ticker */
+        .breaking-news {
+            background-color: var(--highlight);
+            color: var(--text-light);
+            padding: 10px 0;
+            overflow: hidden;
+        }
+
+        .breaking-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .breaking-label {
+            background-color: var(--primary);
+            padding: 5px 15px;
+            font-weight: 700;
+            margin-right: 20px;
+            white-space: nowrap;
+        }
+
+        .ticker {
+            overflow: hidden;
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .ticker-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Page Header */
+        .page-header {
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            z-index: -1;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 20px;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--highlight);
+        }
+
+        /* About Hero */
+        .about-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+
+        .hero-content h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            margin-bottom: 20px;
+            color: var(--gray-dark);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .dark-mode .stat-item {
+            background-color: var(--secondary);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--highlight);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray-dark);
+        }
+
+        .hero-image {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-img {
+            height: 400px;
+            background-color: var(--gray-light);
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Mission Section */
+        .mission-section {
+            background-color: var(--gray-light);
+            padding: 80px 0;
+            margin-bottom: 80px;
+        }
+
+        .dark-mode .mission-section {
+            background-color: var(--accent);
+        }
+
+        .mission-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .mission-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .dark-mode .mission-card {
+            background-color: var(--secondary);
+        }
+
+        .mission-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .mission-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--highlight);
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            margin: 0 auto 25px;
+        }
+
+        .mission-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Team Section */
+        .team-section {
+            margin-bottom: 80px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .team-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .dark-mode .team-card {
+            background-color: var(--secondary);
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .team-img {
+            height: 250px;
+            background-color: var(--gray-light);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .team-content {
+            padding: 25px;
+        }
+
+        .team-name {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .team-role {
+            color: var(--highlight);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-link {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: var(--gray-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .dark-mode .social-link {
+            background-color: var(--accent);
+        }
+
+        .social-link:hover {
+            background-color: var(--highlight);
+            color: var(--text-light);
+        }
+
+        /* Values Section */
+        .values-section {
+            background-color: var(--gray-light);
+            padding: 80px 0;
+            margin-bottom: 80px;
+        }
+
+        .dark-mode .values-section {
+            background-color: var(--accent);
+        }
+
+        .values-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        .value-item {
+            display: flex;
+            gap: 20px;
+        }
+
+        .value-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--highlight);
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .value-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            margin-bottom: 80px;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background-color: var(--gray-light);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            width: 45%;
+            padding: 25px;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .dark-mode .timeline-content {
+            background-color: var(--secondary);
+        }
+
+        .timeline-year {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--highlight);
+            color: var(--text-light);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: auto;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-right: auto;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 80px 0;
+            text-align: center;
+            border-radius: var(--border-radius);
+            margin-bottom: 80px;
+        }
+
+        .cta-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-text {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 50px 0 20px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        footer .footer-col h3, .footer-col h4 {
+            color: var(--text-light) !important;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--highlight);
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--highlight);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background-color: var(--highlight);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-dark);
+            font-size: 0.9rem;
+            color: var(--gray-medium);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-hero {
+                grid-template-columns: 1fr;
+            }
+
+            .mission-container {
+                grid-template-columns: 1fr;
+            }
+
+            .values-container {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                flex-direction: row !important;
+            }
+
+            .timeline-content {
+                width: calc(100% - 80px);
+                margin-left: 80px !important;
+            }
+
+            .timeline-year {
+                left: 30px;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .nav-actions .btn {
+        display: inline-block !important;
+        padding: 8px 16px;
+        font-size: 1rem;
+    }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .zoom-on-hover {
+            transition: transform 0.3s ease;
+        }
+
+        .zoom-on-hover:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container header-container">
+            <a href="./index.html" class="logo">STACK<span>LY</span></a>
+            
+            <nav>
+                <ul class="nav-menu">
+                   <li class="dropdown">
+                        <a href="./index.html" class="nav-link">Home <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./home2.html">Home 2</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="nav-link">Categories <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                             <li><a href="./lifestyle.html">Lifestyle</a></li>
+                            <li><a href="./entertainment.html">Entertainment</a></li>
+                            <li><a href="./sports.html">Sports</a></li>
+                            <li><a href="./world.html">World</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="./news.html" class="nav-link">News</a></li>
+                    <li><a href="./about.html" class="nav-link active">About</a></li>
+                    <li><a href="./contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="login.html" class="btn">Login</a>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breaking News Ticker -->
+    <section class="breaking-news">
+        <div class="container breaking-container">
+            <div class="breaking-label">ABOUT STACKLY</div>
+            <div class="ticker">
+                <div class="ticker-content">
+                    Celebrating 5 Years of Trusted Journalism • STACKLY Wins National Media Excellence Award • Our Team Expands to 50+ Journalists • Launching New Regional Editions in 2025 • Commitment to Fact-Checking and Ethical Reporting
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">About STACKLY</h1>
+            <p class="page-subtitle">Your trusted source for accurate, timely, and impactful journalism since 2020. We're committed to delivering news that matters.</p>
+            <div class="breadcrumb">
+                <a href="./index.html">Home</a>
+                <span>/</span>
+                <span>About Us</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- About Hero -->
+        <section class="about-hero">
+            <div class="hero-content fade-in">
+                <h2>Our Story</h2>
+                <p>Founded in 2020, STACKLY emerged as a response to the growing need for reliable, unbiased journalism in an era of information overload. Our mission was simple yet ambitious: to create a news platform that prioritizes truth, transparency, and trust above all else.</p>
+                <p>What started as a small team of passionate journalists has grown into a respected media organization with readers across the globe. We've remained committed to our founding principles while adapting to the evolving media landscape.</p>
+                <p>Today, STACKLY stands as a beacon of journalistic integrity, delivering comprehensive coverage across politics, business, technology, education, and more. Our team of dedicated reporters, editors, and analysts work tirelessly to bring you stories that inform, engage, and inspire.</p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item zoom-on-hover">
+                        <div class="stat-number">5+</div>
+                        <div class="stat-label">Years of Excellence</div>
+                    </div>
+                    <div class="stat-item zoom-on-hover">
+                        <div class="stat-number">2M+</div>
+                        <div class="stat-label">Monthly Readers</div>
+                    </div>
+                    <div class="stat-item zoom-on-hover">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Award Wins</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image fade-in">
+                <div class="hero-img" style="background-image: url('./images/our team.webp')"></div>
+            </div>
+        </section>
+
+        <!-- Mission Section -->
+        <section class="mission-section">
+            <div class="container">
+                <h2 class="section-title">Our Mission & Values</h2>
+                <div class="mission-container">
+                    <div class="mission-card zoom-on-hover">
+                        <div class="mission-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3 class="mission-title">Our Mission</h3>
+                        <p>To deliver accurate, timely, and impactful journalism that empowers our readers to make informed decisions and understand the world around them.</p>
+                    </div>
+                    <div class="mission-card zoom-on-hover">
+                        <div class="mission-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3 class="mission-title">Our Vision</h3>
+                        <p>To become the most trusted and comprehensive news source, setting the standard for journalistic excellence in the digital age.</p>
+                    </div>
+                    <div class="mission-card zoom-on-hover">
+                        <div class="mission-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3 class="mission-title">Our Promise</h3>
+                        <p>We commit to upholding the highest standards of journalism, prioritizing truth and integrity in every story we publish.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team-section">
+            <div class="container">
+                <h2 class="section-title">Meet Our Leadership Team</h2>
+                <div class="team-grid">
+                    <div class="team-card zoom-on-hover">
+                        <div class="team-img" style="background-image: url('./images/Robbie\ Williams.webp')"></div>
+                        <div class="team-content">
+                            <h3 class="team-name">Robert Wilson</h3>
+                            <div class="team-role">Editor-in-Chief</div>
+                            <p>With over 15 years of experience in journalism, Robert leads our editorial team with a commitment to excellence and integrity.</p>
+                            <div class="team-social">
+                                <a href="./404.html" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="./404.html" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="./404.html" class="social-link"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-card zoom-on-hover">
+                        <div class="team-img" style="background-image: url('./images/Sophia\ Rodriguez.webp')"></div>
+                        <div class="team-content">
+                            <h3 class="team-name">Sarah Johnson</h3>
+                            <div class="team-role">Managing Editor</div>
+                            <p>Sarah oversees our daily operations and ensures that every story meets our rigorous standards for accuracy and impact.</p>
+                            <div class="team-social">
+                                <a href="./404.html" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="./404.html" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="./404.html" class="social-link"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-card zoom-on-hover">
+                        <div class="team-img" style="background-image: url('./images/Jordan\ Williams.webp')"></div>
+                        <div class="team-content">
+                            <h3 class="team-name">Michael Brown</h3>
+                            <div class="team-role">Business Editor</div>
+                            <p>Michael brings his financial expertise to our business coverage, providing insightful analysis of markets and economies.</p>
+                            <div class="team-social">
+                                <a href="./404.html" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="./404.html" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="./404.html" class="social-link"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-card zoom-on-hover">
+                        <div class="team-img" style="background-image: url('./images/9541fe6b-5676-46c7-b357-385826fe125d.webp')"></div>
+                        <div class="team-content">
+                            <h3 class="team-name">David Chen</h3>
+                            <div class="team-role">Technology Editor</div>
+                            <p>David leads our technology coverage, exploring how innovation shapes our world and impacts our daily lives.</p>
+                            <div class="team-social">
+                                <a href="./404.html" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="./404.html" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="./404.html" class="social-link"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section class="values-section">
+            <div class="container">
+                <h2 class="section-title">Our Core Values</h2>
+                <div class="values-container">
+                    <div class="value-item fade-in">
+                        <div class="value-icon">
+                            <i class="fas fa-check-double"></i>
+                        </div>
+                        <div class="value-content">
+                            <h3>Accuracy</h3>
+                            <p>We verify every fact and source before publication, ensuring our readers receive only the most reliable information.</p>
+                        </div>
+                    </div>
+                    <div class="value-item fade-in">
+                        <div class="value-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="value-content">
+                            <h3>Impartiality</h3>
+                            <p>We present all sides of a story without bias, allowing our readers to form their own informed opinions.</p>
+                        </div>
+                    </div>
+                    <div class="value-item fade-in">
+                        <div class="value-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="value-content">
+                            <h3>Integrity</h3>
+                            <p>We adhere to the highest ethical standards in journalism, maintaining transparency in our reporting processes.</p>
+                        </div>
+                    </div>
+                    <div class="value-item fade-in">
+                        <div class="value-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="value-content">
+                            <h3>Community</h3>
+                            <p>We believe in serving our readers and communities, giving voice to important issues that affect people's lives.</p>
+                        </div>
+                    </div>
+                    <div class="value-item fade-in">
+                        <div class="value-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="value-content">
+                            <h3>Innovation</h3>
+                            <p>We continuously evolve our storytelling methods and platforms to better serve our audience in a changing world.</p>
+                        </div>
+                    </div>
+                    <div class="value-item fade-in">
+                        <div class="value-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="value-content">
+                            <h3>Global Perspective</h3>
+                            <p>We connect local stories to global contexts, helping readers understand the interconnected nature of our world.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section class="timeline-section">
+            <div class="container">
+                <h2 class="section-title">Our Journey</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-year">2020</div>
+                        <div class="timeline-content">
+                            <h3>Foundation</h3>
+                            <p>STACKLY was founded by a group of journalists committed to creating a trustworthy news source in the digital age.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2021</div>
+                        <div class="timeline-content">
+                            <h3>Rapid Growth</h3>
+                            <p>We reached 500,000 monthly readers and expanded our team to include specialized reporters across various beats.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2022</div>
+                        <div class="timeline-content">
+                            <h3>Award Recognition</h3>
+                            <p>STACKLY received the National Media Excellence Award for our investigative reporting on environmental issues.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2023</div>
+                        <div class="timeline-content">
+                            <h3>International Expansion</h3>
+                            <p>We launched our international edition, establishing correspondents in key global locations.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2024</div>
+                        <div class="timeline-content">
+                            <h3>Mobile Innovation</h3>
+                            <p>Our award-winning mobile app was launched, providing readers with personalized news experiences.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">2025</div>
+                        <div class="timeline-content">
+                            <h3>Future Vision</h3>
+                            <p>We continue to innovate with AI-powered content personalization and expanded regional coverage.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-title">Join Our Community</h2>
+                <p class="cta-text">Become part of the STACKLY community and stay informed with the latest news, insights, and stories that matter.</p>
+                <a href="./contact.html" class="btn">Get In Touch</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>STACKLY</h3>
+                    <p>Your trusted source for the latest news, insights, and stories from around the world. Delivering accurate and timely journalism since 2020.</p>
+                    <div class="social-links">
+                        <a href="./404.html" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="./404.html" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="./404.html" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="./404.html" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="./404.html" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="home2.html">Home Style 2</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                            <li><a href="./lifestyle.html">Lifestyle</a></li>
+                            <li><a href="./entertainment.html">Entertainment</a></li>
+                            <li><a href="./sports.html">Sports</a></li>
+                            <li><a href="./world.html">World</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Address</h4>
+                                <p>Salem, Tamil Nadu, India</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Phone</h4>
+                                <p>9876543210</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Email</h4>
+                                <p>info@stackly.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 STACKLY Newspaper Pvt. Ltd. — All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.querySelector('.nav-menu');
+        const dropdowns = document.querySelectorAll('.dropdown');
+
+        // Dark Mode Toggle
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+
+        // Mobile Menu Toggle
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const icon = mobileToggle.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+                document.body.style.overflow = 'hidden';
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Dropdown functionality for mobile
+        dropdowns.forEach(dropdown => {
+            const link = dropdown.querySelector('.nav-link');
+            
+            // Toggle dropdown on click (mobile)
+            link.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    dropdown.classList.toggle('active');
+                    
+                    // Close other dropdowns
+                    dropdowns.forEach(otherDropdown => {
+                        if (otherDropdown !== dropdown) {
+                            otherDropdown.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !e.target.closest('.nav-menu') && 
+                !e.target.closest('.mobile-toggle')) {
+                navMenu.classList.remove('active');
+                const icon = mobileToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                document.body.style.overflow = '';
+                
+                // Close all dropdowns
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+
+        // Close mobile menu on resize if window becomes larger
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navMenu.classList.remove('active');
+                const icon = mobileToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                document.body.style.overflow = '';
+                
+                // Close all dropdowns
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+
+        // Scroll Animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        fadeElements.forEach(el => observer.observe(el));
+
+        // Auto-show fade-in elements on page load
+        window.addEventListener('load', () => {
+            fadeElements.forEach(el => {
+                el.classList.add('visible');
+            });
+        });
+    </script>
+</body>
+</html>

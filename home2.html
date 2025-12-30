@@ -1,0 +1,2248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STACKLY - Modern Newspaper</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --text-light: #f5f5f5;
+            --text-dark: #333;
+            --gray-light: #e0e0e0;
+            --gray-medium: #9e9e9e;
+            --gray-dark: #616161;
+            --white: #ffffff;
+            --black: #000000;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --border-radius: 8px;
+        }
+
+        .dark-mode {
+            --primary: #121212;
+            --secondary: #1e1e1e;
+            --accent: #2d2d2d;
+            --text-light: #f5f5f5;
+            --text-dark: #e0e0e0;
+            --gray-light: #424242;
+            --gray-medium: #616161;
+            --gray-dark: #9e9e9e;
+            --white: #1e1e1e;
+            --black: #f5f5f5;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        h2.hero-title {
+            color: var(--text-light);
+        }
+
+        h3.category-name {
+            color: var(--text-light);
+        }
+
+        .dark-mode h1, .dark-mode h2, .dark-mode h3, .dark-mode h4, .dark-mode h5, .dark-mode h6 {
+            color: var(--text-light);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Enhanced Button with Ripple */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--highlight);
+            color: var(--text-light);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.2);
+        }
+
+        .btn:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(233, 69, 96, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10, 10);
+            opacity: 0;
+            transition: transform .5s, opacity 1s;
+        }
+
+        .btn:active::after {
+            transform: scale(0, 0);
+            opacity: .3;
+            transition: 0s;
+        }
+
+        /* Header & Navigation with Animation */
+        header {
+            background-color: var(--primary);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            transform: translateY(0);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        header.hidden {
+            transform: translateY(-100%);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            z-index: 1001;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .logo:hover::before {
+            left: 100%;
+        }
+
+        .logo span {
+            color: var(--highlight);
+            display: inline-block;
+            animation: logoPulse 3s infinite;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg); 
+                text-shadow: 0 0 0 rgba(233, 69, 96, 0);
+            }
+            50% { 
+                transform: scale(1.1) rotate(5deg); 
+                text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+            }
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--highlight);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: left;
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+        }
+
+        .nav-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover i {
+            transform: rotate(180deg);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--secondary);
+            border-radius: 30px;
+            padding: 5px 15px;
+            transition: var(--transition);
+        }
+
+        .search-bar:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            padding: 8px;
+            width: 200px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-bar input:focus {
+            width: 250px;
+        }
+
+        .search-bar button {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-bar button:hover {
+            transform: rotate(90deg);
+        }
+
+        .theme-toggle, .mobile-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle:hover, .mobile-toggle:hover {
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        .theme-toggle::before, .mobile-toggle::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: var(--highlight);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+
+        .theme-toggle:hover::before, .mobile-toggle:hover::before {
+            width: 40px;
+            height: 40px;
+            opacity: 0.2;
+        }
+
+        .theme-toggle i, .mobile-toggle i {
+            position: relative;
+            z-index: 1;
+        }
+
+        .mobile-toggle {
+            display: none;
+        }
+
+        /* Dropdown Menu with Animation */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--secondary);
+            min-width: 200px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 100;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(5px) scale(1);
+        }
+
+        .dropdown-menu li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateX(-20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-menu li {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .dropdown-menu li:nth-child(1) { transition-delay: 0.1s; }
+        .dropdown-menu li:nth-child(2) { transition-delay: 0.2s; }
+        .dropdown-menu li:nth-child(3) { transition-delay: 0.3s; }
+        .dropdown-menu li:nth-child(4) { transition-delay: 0.4s; }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-light);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dropdown-menu a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .dropdown-menu a:hover::before {
+            left: 100%;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: var(--accent);
+            padding-left: 25px;
+            transform: translateX(5px);
+        }
+
+        /* Breaking News Ticker with Enhanced Animation */
+        .breaking-news {
+            background: linear-gradient(45deg, var(--highlight), #ff6b8b);
+            color: var(--text-light);
+            padding: 12px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .breaking-news::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%);
+        }
+
+        .breaking-news:hover::before {
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            100% { transform: translateX(100%); }
+        }
+
+        .breaking-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .breaking-label {
+            background-color: var(--primary);
+            padding: 8px 20px;
+            font-weight: 700;
+            margin-right: 20px;
+            white-space: nowrap;
+            border-radius: 30px;
+            animation: blink 3s infinite, float 6s ease-in-out infinite;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .ticker {
+            overflow: hidden;
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .ticker-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 40s linear infinite;
+            padding-left: 100%;
+        }
+
+        .ticker:hover .ticker-content {
+            animation-play-state: paused;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Home 2 Specific Styles */
+        
+        /* Hero Section with Parallax Effect */
+        .hero-section {
+            margin: 30px 0;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .main-hero {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 500px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .main-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0,0,0,0.7), transparent);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .main-hero:hover::before {
+            opacity: 1;
+        }
+
+        .main-hero-img {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+
+        .main-hero:hover .main-hero-img {
+            transform: scale(1.1) rotate(1deg);
+        }
+
+        .main-hero-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 40px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            color: var(--text-light);
+            z-index: 2;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease 0.2s;
+        }
+
+        .main-hero:hover .main-hero-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .hero-category {
+            display: inline-block;
+            background-color: var(--highlight);
+            color: var(--text-light);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            transform: translateX(-20px);
+            opacity: 0;
+            transition: all 0.5s ease 0.3s;
+        }
+
+        .main-hero:hover .hero-category {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .hero-title {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease 0.4s;
+        }
+
+        .main-hero:hover .hero-title {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.5s ease 0.5s;
+        }
+
+        .main-hero:hover .hero-meta {
+            transform: translateY(0);
+            opacity: 0.8;
+        }
+
+        .side-hero {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .side-hero-item {
+            display: flex;
+            gap: 15px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            background-color: var(--white);
+            transform: translateX(30px);
+            opacity: 0;
+            animation: slideInRight 0.6s ease forwards;
+        }
+
+        .side-hero-item:nth-child(1) { animation-delay: 0.2s; }
+        .side-hero-item:nth-child(2) { animation-delay: 0.3s; }
+        .side-hero-item:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes slideInRight {
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .side-hero-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .side-hero-img {
+            width: 120px;
+            height: 120px;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+            transition: transform 0.5s ease;
+        }
+
+        .side-hero-item:hover .side-hero-img {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .side-hero-content {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-grow: 1;
+        }
+
+        .side-hero-category {
+            font-size: 0.7rem;
+            color: var(--highlight);
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .side-hero-title {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            transition: var(--transition);
+        }
+
+        .side-hero-item:hover .side-hero-title {
+            color: var(--highlight);
+        }
+
+        .side-hero-meta {
+            font-size: 0.7rem;
+            color: var(--gray-dark);
+        }
+
+        /* Magazine Layout */
+        .magazine-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease 0.3s forwards;
+        }
+
+        .featured-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--highlight);
+            transition: width 0.3s ease;
+        }
+
+        .featured-section:hover .section-title::after {
+            width: 100px;
+        }
+
+        .featured-articles {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .featured-article {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            background-color: var(--white);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: cardAppear 0.6s ease forwards;
+        }
+
+        .featured-article:nth-child(1) { animation-delay: 0.4s; }
+        .featured-article:nth-child(2) { animation-delay: 0.5s; }
+        .featured-article:nth-child(3) { animation-delay: 0.6s; }
+        .featured-article:nth-child(4) { animation-delay: 0.7s; }
+
+        @keyframes cardAppear {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .featured-article:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .featured-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.7));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .featured-article:hover .featured-img::after {
+            opacity: 1;
+        }
+
+        .featured-article:hover .featured-img {
+            transform: scale(1.1);
+        }
+
+        .featured-content {
+            padding: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .featured-category {
+            display: inline-block;
+            background-color: var(--highlight);
+            color: var(--text-light);
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+
+        .featured-article:hover .featured-category {
+            background-color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .featured-title {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            transition: var(--transition);
+        }
+
+        .featured-article:hover .featured-title {
+            color: var(--highlight);
+        }
+
+        .featured-excerpt {
+            font-size: 0.9rem;
+            color: var(--gray-medium);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .featured-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--gray-dark);
+        }
+
+        /* Popular Categories with Glass Effect */
+        .popular-categories {
+            margin: 40px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease 0.5s forwards;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .category-block {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            height: 200px;
+            transform: scale(0.95);
+            opacity: 0;
+            animation: scaleIn 0.6s ease forwards;
+        }
+
+        .category-block:nth-child(1) { animation-delay: 0.6s; }
+        .category-block:nth-child(2) { animation-delay: 0.7s; }
+        .category-block:nth-child(3) { animation-delay: 0.8s; }
+        .category-block:nth-child(4) { animation-delay: 0.9s; }
+
+        @keyframes scaleIn {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .category-block:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        .category-bg {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .category-block:hover .category-bg {
+            transform: scale(1.2);
+        }
+
+        .category-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-light);
+            text-align: center;
+            padding: 20px;
+            backdrop-filter: blur(2px);
+            transition: backdrop-filter 0.3s ease;
+        }
+
+        .category-block:hover .category-overlay {
+            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.4);
+        }
+
+        .category-name {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .category-count {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.5s ease 0.2s;
+        }
+
+        .category-block:hover .category-name,
+        .category-block:hover .category-count {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Sidebar with Stagger Animation */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .sidebar-widget {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transform: translateX(30px);
+            opacity: 0;
+            animation: slideInRight 0.6s ease forwards;
+        }
+
+        .sidebar-widget:nth-child(1) { animation-delay: 0.3s; }
+        .sidebar-widget:nth-child(2) { animation-delay: 0.4s; }
+        .sidebar-widget:nth-child(3) { animation-delay: 0.5s; }
+
+        .dark-mode .sidebar-widget {
+            background-color: var(--secondary);
+        }
+
+        .widget-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray-light);
+            position: relative;
+        }
+
+        .widget-title::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--highlight);
+            transition: width 0.3s ease;
+        }
+
+        .sidebar-widget:hover .widget-title::after {
+            width: 80px;
+        }
+
+        .recent-post {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray-light);
+            transition: var(--transition);
+            transform: translateX(-20px);
+            opacity: 0;
+            animation: slideInLeft 0.5s ease forwards;
+        }
+
+        .recent-post:nth-child(1) { animation-delay: 0.1s; }
+        .recent-post:nth-child(2) { animation-delay: 0.2s; }
+        .recent-post:nth-child(3) { animation-delay: 0.3s; }
+        .recent-post:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideInLeft {
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .recent-post:hover {
+            transform: translateX(10px);
+            border-bottom-color: var(--highlight);
+        }
+
+        .recent-post:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .recent-img {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--border-radius);
+            background-color: var(--gray-light);
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .recent-post:hover .recent-img {
+            transform: scale(1.1) rotate(3deg);
+        }
+
+        .recent-content h4 {
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            transition: var(--transition);
+        }
+
+        .recent-post:hover .recent-content h4 {
+            color: var(--highlight);
+        }
+
+        .recent-content .post-date {
+            font-size: 0.8rem;
+            color: var(--gray-dark);
+        }
+
+        .popular-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            background-color: var(--gray-light);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tag::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background-color: var(--highlight);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .tag:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .tag:hover {
+            color: var(--text-light);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .tag span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group input {
+            padding: 12px 15px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            background-color: var(--white);
+            color: var(--text-dark);
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .dark-mode .form-group input {
+            background-color: var(--accent);
+            border-color: var(--gray-medium);
+            color: var(--text-light);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--highlight);
+            box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Footer with Wave Animation */
+        footer {
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 50px 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='%231a1a2e'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        footer .footer-col h3, .footer-col h4 {
+            color: var(--text-light) !important;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--highlight);
+            transition: width 0.3s ease;
+        }
+
+        .footer-col:hover h3::after {
+            width: 80px;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+            transform: translateX(0);
+            transition: var(--transition);
+        }
+
+        .footer-links li:hover {
+            transform: translateX(10px);
+        }
+
+        .footer-links a {
+            display: inline-block;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--highlight);
+            transition: width 0.3s ease;
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        .footer-links a:hover {
+            color: var(--highlight);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--highlight);
+            transform: scale(0);
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover::before {
+            transform: scale(1);
+        }
+
+        .social-link i {
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover i {
+            transform: rotate(360deg) scale(1.2);
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            align-items: flex-start;
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            transform: translateX(5px);
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .contact-item:hover .contact-icon {
+            background-color: var(--highlight);
+            transform: rotateY(180deg);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-dark);
+            font-size: 0.9rem;
+            color: var(--gray-medium);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .copyright::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--highlight), transparent);
+            animation: copyrightLine 3s linear infinite;
+        }
+
+        @keyframes copyrightLine {
+            100% { left: 100%; }
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--highlight), var(--accent));
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--highlight);
+            color: var(--text-light);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(233, 69, 96, 0.3);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 30px rgba(233, 69, 96, 0.4);
+        }
+
+        /* Particle Animation */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        @keyframes particle-animation {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) rotate(var(--r));
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .magazine-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-articles {
+                grid-template-columns: 1fr;
+            }
+            
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: var(--primary);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+                transition: var(--transition);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                z-index: 999;
+            }
+
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-actions .btn {
+                display: inline-block !important;
+                padding: 8px 16px;
+                font-size: 1rem;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                background-color: transparent;
+                text-align: center;
+                margin-top: 15px;
+                display: none;
+            }
+
+            .dropdown.active .dropdown-menu {
+                display: block;
+                animation: fadeInDown 0.3s ease;
+            }
+
+            @keyframes fadeInDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .main-hero {
+                height: 400px;
+            }
+            
+            .hero-title {
+                font-size: 1.5rem;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .zoom-on-hover {
+            transition: transform 0.3s ease;
+        }
+
+        .zoom-on-hover:hover {
+            transform: scale(1.05);
+        }
+
+        /* Skeleton Loading Animation */
+        .skeleton {
+            background: linear-gradient(90deg, var(--gray-light) 25%, var(--gray-medium) 50%, var(--gray-light) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Floating Animation */
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Glow Animation */
+        .glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px rgba(233, 69, 96, 0.5); }
+            to { box-shadow: 0 0 20px rgba(233, 69, 96, 0.8); }
+        }
+
+        /* Shake Animation */
+        .shake:hover {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header id="mainHeader">
+        <div class="container header-container">
+            <a href="./index.html" class="logo">STACK<span>LY</span></a>
+            
+            <nav>
+                <ul class="nav-menu">
+                   <li class="dropdown">
+                        <a href="./index.html" class="nav-link">Home <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./index.html">Home 1</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="nav-link">Categories <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                             <li><a href="./lifestyle.html">Lifestyle</a></li>
+                            <li><a href="./entertainment.html">Entertainment</a></li>
+                            <li><a href="./sports.html">Sports</a></li>
+                            <li><a href="./world.html">World</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="./news.html" class="nav-link">News</a></li>
+                    <li><a href="./about.html" class="nav-link">About</a></li>
+                    <li><a href="./contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="login.html" class="btn">Login</a>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breaking News Ticker -->
+    <section class="breaking-news">
+        <div class="container breaking-container">
+            <div class="breaking-label">BREAKING NEWS</div>
+            <div class="ticker">
+                <div class="ticker-content">
+                    Global Climate Summit Reaches Historic Agreement • Tech Giant Unveils Revolutionary AI Assistant • National Sports Team Wins Championship After 20 Years • Economic Forecast Shows Strong Growth • Scientists Discover New Species in Deep Ocean
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="main-hero zoom-on-hover">
+                <div class="main-hero-img" style="background-image: url('./images/Global\ leader\ gather.webp')"></div>
+                <div class="main-hero-content">
+                    <span class="hero-category">World</span>
+                    <h2 class="hero-title">Global Summit Addresses Climate Change Crisis</h2>
+                    <div class="hero-meta">
+                        <span><i class="far fa-user"></i> Sarah Johnson</span>
+                        <span><i class="far fa-clock"></i> 3 hours ago</span>
+                        <span><i class="far fa-eye"></i> 2.5K views</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="side-hero">
+                <div class="side-hero-item zoom-on-hover">
+                    <div class="side-hero-img" style="background-image: url('./images/Tech\ Startup\ Secures\ $30\ Million\ in\ Funding\ Round.webp')"></div>
+                    <div class="side-hero-content">
+                        <span class="side-hero-category">Technology</span>
+                        <h3 class="side-hero-title">New AI Model Breaks Performance Records</h3>
+                        <div class="side-hero-meta">2 hours ago</div>
+                    </div>
+                </div>
+                <div class="side-hero-item zoom-on-hover">
+                    <div class="side-hero-img" style="background-image: url('./images/Underdog\ Team\ Stuns\ Champions\ in\ Historic\ Upset.webp')"></div>
+                    <div class="side-hero-content">
+                        <span class="side-hero-category">Sports</span>
+                        <h3 class="side-hero-title">Underdog Team Advances to Finals</h3>
+                        <div class="side-hero-meta">5 hours ago</div>
+                    </div>
+                </div>
+                <div class="side-hero-item zoom-on-hover">
+                    <div class="side-hero-img" style="background-image: url('./images/Award-Winning\ Director\ Announces\ New\ Film\ Project.webp')"></div>
+                    <div class="side-hero-content">
+                        <span class="side-hero-category">Entertainment</span>
+                        <h3 class="side-hero-title">Award Show Announces Surprising Winners</h3>
+                        <div class="side-hero-meta">1 day ago</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Magazine Layout -->
+        <div class="magazine-layout">
+            <div class="content-left">
+                <!-- Featured Articles -->
+                <section class="featured-section">
+                    <h2 class="section-title">Featured Stories</h2>
+                    <div class="featured-articles">
+                        <article class="featured-article zoom-on-hover">
+                            <div class="featured-img" style="background-image: url('./images/Stock\ market\ reachs.webp')"></div>
+                            <div class="featured-content">
+                                <span class="featured-category">Business</span>
+                                <h3 class="featured-title">Market Trends Show Strong Recovery in Q3</h3>
+                                <p class="featured-excerpt">Economic indicators point to sustained growth across multiple sectors as businesses adapt to new market realities.</p>
+                                <div class="featured-meta">
+                                    <span>John Smith</span>
+                                    <span>4 hours ago</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="featured-article zoom-on-hover">
+                            <div class="featured-img" style="background-image: url('./images/Benefits\ of\ Mediterranean\ Die.webp')"></div>
+                            <div class="featured-content">
+                                <span class="featured-category">Health</span>
+                                <h3 class="featured-title">Breakthrough in Cancer Research Announced</h3>
+                                <p class="featured-excerpt">Scientists discover promising new treatment approach that could revolutionize cancer care in the coming years.</p>
+                                <div class="featured-meta">
+                                    <span>Dr. Emily Wilson</span>
+                                    <span>1 day ago</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="featured-article zoom-on-hover">
+                            <div class="featured-img" style="background-image: url('./images/Universities\ Adopt\ Hybrid\ Learning\ Models\ Permanently.webp')"></div>
+                            <div class="featured-content">
+                                <span class="featured-category">Education</span>
+                                <h3 class="featured-title">Universities Adopt New Digital Learning Platforms</h3>
+                                <p class="featured-excerpt">Higher education institutions worldwide are implementing innovative technologies to enhance student learning experiences.</p>
+                                <div class="featured-meta">
+                                    <span>Robert Chen</span>
+                                    <span>2 days ago</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="featured-article zoom-on-hover">
+                            <div class="featured-img" style="background-image: url('./images/5\ Underrated\ European\ Destinations.webp')"></div>
+                            <div class="featured-content">
+                                <span class="featured-category">Travel</span>
+                                <h3 class="featured-title">Top Destinations for Post-Pandemic Tourism</h3>
+                                <p class="featured-excerpt">Travel experts reveal the most sought-after locations as global tourism begins to recover from pandemic impacts.</p>
+                                <div class="featured-meta">
+                                    <span>Maria Rodriguez</span>
+                                    <span>3 days ago</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- Popular Categories -->
+                <section class="popular-categories">
+                    <h2 class="section-title">Browse Categories</h2>
+                    <div class="categories-grid">
+                        <a href="./lifestyle.html" class="category-block zoom-on-hover">
+                            <div class="category-bg" style="background-image: url('./images/Sophia\ Rodriguez.webp')"></div>
+                            <div class="category-overlay">
+                                <h3 class="category-name">Lifestyle</h3>
+                                <span class="category-count">128 Articles</span>
+                            </div>
+                        </a>
+                        <a href="./entertainment.html" class="category-block zoom-on-hover">
+                            <div class="category-bg" style="background-image: url('./images/Shadow\ Games.webp')"></div>
+                            <div class="category-overlay">
+                                <h3 class="category-name">Entertainment</h3>
+                                <span class="category-count">95 Articles</span>
+                            </div>
+                        </a>
+                        <a href="./sports.html" class="category-block zoom-on-hover">
+                            <div class="category-bg" style="background-image: url('./images/Record-Breaking\ Performance\ in\ NBA\ Finals\ Game.webp')"></div>
+                            <div class="category-overlay">
+                                <h3 class="category-name">Sports</h3>
+                                <span class="category-count">142 Articles</span>
+                            </div>
+                        </a>
+                        <a href="./world.html" class="category-block zoom-on-hover">
+                            <div class="category-bg" style="background-image: url('./images/headlines.webp')"></div>
+                            <div class="category-overlay">
+                                <h3 class="category-name">World</h3>
+                                <span class="category-count">210 Articles</span>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+            </div>
+            
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Most Popular</h3>
+                    <div class="recent-posts">
+                        <div class="recent-post">
+                            <div class="recent-img" style="background-image: url('./images/Tech\ Companies\ Announce\ Collaboration\ on\ AI\ Ethics.webp')"></div>
+                            <div class="recent-content">
+                                <h4>Global Economic Forum Announces New Initiatives</h4>
+                                <span class="post-date">5 hours ago</span>
+                            </div>
+                        </div>
+                        <div class="recent-post">
+                            <div class="recent-img" style="background-image: url('./images/5\ Superfoods\ to\ Boost\ Your\ Immune\ System.webp')"></div>
+                            <div class="recent-content">
+                                <h4>Revolutionary Medical Device Gets FDA Approval</h4>
+                                <span class="post-date">1 day ago</span>
+                            </div>
+                        </div>
+                        <div class="recent-post">
+                            <div class="recent-img" style="background-image: url('./images/Tech\ Startup\ Secures\ $30\ Million\ in\ Funding\ Round.webp')"></div>
+                            <div class="recent-content">
+                                <h4>Tech Giant Unveils Next-Generation Smartphone</h4>
+                                <span class="post-date">2 days ago</span>
+                            </div>
+                        </div>
+                        <div class="recent-post">
+                            <div class="recent-img" style="background-image: url('./images/National\ Team\ Secures\ Place\ in\ Final.webp')"></div>
+                            <div class="recent-content">
+                                <h4>Historic Sports Championship Breaks Viewership Records</h4>
+                                <span class="post-date">3 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Trending Tags</h3>
+                    <div class="popular-tags">
+                        <a href="./404.html" class="tag"><span>#Technology</span></a>
+                        <a href="./404.html" class="tag"><span>#Innovation</span></a>
+                        <a href="./404.html" class="tag"><span>#Climate</span></a>
+                        <a href="./404.html" class="tag"><span>#Health</span></a>
+                        <a href="./404.html" class="tag"><span>#Economy</span></a>
+                        <a href="./404.html" class="tag"><span>#Sports</span></a>
+                        <a href="./404.html" class="tag"><span>#Entertainment</span></a>
+                        <a href="./404.html" class="tag"><span>#Travel</span></a>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Newsletter</h3>
+                    <p>Subscribe to our newsletter to get the latest news delivered directly to your inbox.</p>
+                    <form class="newsletter-form">
+                        <div class="form-group">
+                            <input type="email" placeholder="Your email address" required>
+                        </div>
+                        <button type="submit" class="btn">Subscribe</button>
+                    </form>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>STACKLY</h3>
+                    <p>Your trusted source for the latest news, insights, and stories from around the world. Delivering accurate and timely journalism since 2025.</p>
+                    <div class="social-links">
+                        <a href="./404.html" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="./404.html" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="./404.html" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="./404.html" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="./404.html" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="home2.html">Home Style 2</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                         <li><a href="./lifestyle.html">Lifestyle</a></li>
+                            <li><a href="./entertainment.html">Entertainment</a></li>
+                            <li><a href="./sports.html">Sports</a></li>
+                            <li><a href="./world.html">World</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Address</h4>
+                                <p>Salem, Tamil Nadu, India</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Phone</h4>
+                                <p>9876543210</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Email</h4>
+                                <p>info@stackly.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 STACKLY Newspaper Pvt. Ltd. — All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.querySelector('.nav-menu');
+        const dropdowns = document.querySelectorAll('.dropdown');
+        const scrollProgress = document.getElementById('scrollProgress');
+        const backToTop = document.getElementById('backToTop');
+        const mainHeader = document.getElementById('mainHeader');
+        const tickerContent = document.querySelector('.ticker-content');
+
+        // Dark Mode Toggle with Particle Effect
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            
+            // Create particle effect
+            createParticles(themeToggle, document.body.classList.contains('dark-mode') ? 12 : 8);
+            
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                icon.style.color = '#FFD700';
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                icon.style.color = '';
+            }
+        });
+
+        // Mobile Menu Toggle with Animation
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const icon = mobileToggle.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+                icon.style.transform = 'rotate(90deg)';
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        });
+
+        // Dropdown functionality for mobile
+        dropdowns.forEach(dropdown => {
+            const link = dropdown.querySelector('.nav-link');
+            
+            link.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    const isActive = dropdown.classList.contains('active');
+                    
+                    // Close all dropdowns
+                    dropdowns.forEach(d => d.classList.remove('active'));
+                    
+                    // Toggle current if it wasn't active
+                    if (!isActive) {
+                        dropdown.classList.add('active');
+                    }
+                }
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !e.target.closest('.nav-menu') && 
+                !e.target.closest('.mobile-toggle')) {
+                navMenu.classList.remove('active');
+                const icon = mobileToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                icon.style.transform = 'rotate(0deg)';
+                
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            scrollProgress.style.width = scrolled + '%';
+            
+            // Show/hide back to top button
+            if (winScroll > 300) {
+                backToTop.classList.add('visible');
+                mainHeader.classList.add('hidden');
+            } else {
+                backToTop.classList.remove('visible');
+                mainHeader.classList.remove('hidden');
+            }
+        });
+
+        // Back to Top Button with Particle Effect
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            createParticles(backToTop, 15);
+        });
+
+        // Create Particles Animation
+        function createParticles(element, count) {
+            const rect = element.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            const colors = ['#e94560', '#0f3460', '#1a1a2e', '#16213e', '#ffffff'];
+            
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random properties
+                const size = 2 + Math.random() * 4;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 1 + Math.random() * 2;
+                const tx = Math.cos(angle) * speed * 50;
+                const ty = Math.sin(angle) * speed * 50;
+                const rotation = Math.random() * 360;
+                
+                particle.style.cssText = `
+                    position: fixed;
+                    left: ${x}px;
+                    top: ${y}px;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background-color: ${color};
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 1000;
+                `;
+                
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.setProperty('--r', `${rotation}deg`);
+                
+                document.body.appendChild(particle);
+                
+                particle.style.animation = `particle-animation 0.8s ease-out forwards`;
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 800);
+            }
+        }
+
+        // Enhanced Hover Effects for Cards
+        document.querySelectorAll('.featured-article, .side-hero-item, .category-block').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+                this.style.boxShadow = '0 20px 40px rgba(0,0,0,0.2)';
+                
+                // Add subtle tilt effect
+                const tiltX = (Math.random() - 0.5) * 5;
+                const tiltY = (Math.random() - 0.5) * 5;
+                this.style.transform += ` rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+                this.style.boxShadow = '';
+            });
+        });
+
+        // Typing Animation for Breaking News (Optional)
+        if (tickerContent) {
+            const originalText = tickerContent.textContent;
+            tickerContent.addEventListener('mouseenter', () => {
+                tickerContent.style.animationPlayState = 'paused';
+                tickerContent.style.textShadow = '0 0 15px rgba(255,255,255,0.7)';
+            });
+            
+            tickerContent.addEventListener('mouseleave', () => {
+                tickerContent.style.animationPlayState = 'running';
+                tickerContent.style.textShadow = 'none';
+            });
+        }
+
+        // Stagger Animation for Featured Articles on Scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                    
+                    // Add floating animation to some elements
+                    if (entry.target.classList.contains('category-block')) {
+                        entry.target.classList.add('float-animation');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.featured-article, .side-hero-item, .category-block, .recent-post').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Newsletter Form Animation
+        const newsletterForm = document.querySelector('.newsletter-form');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const submitBtn = this.querySelector('.btn');
+                const originalText = submitBtn.textContent;
+                
+                submitBtn.textContent = 'Subscribing...';
+                submitBtn.style.width = submitBtn.offsetWidth + 'px';
+                submitBtn.disabled = true;
+                
+                // Animate button
+                submitBtn.classList.add('glow');
+                
+                // Simulate subscription
+                setTimeout(() => {
+                    submitBtn.textContent = 'Subscribed! ✓';
+                    submitBtn.style.backgroundColor = '#4CAF50';
+                    
+                    // Add confetti effect
+                    createParticles(submitBtn, 20);
+                    
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        submitBtn.textContent = originalText;
+                        submitBtn.style.width = '';
+                        submitBtn.style.backgroundColor = '';
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('glow');
+                        this.reset();
+                    }, 2000);
+                }, 1500);
+            });
+        }
+
+        // Enhanced Logo Animation
+        const logo = document.querySelector('.logo');
+        logo.addEventListener('mouseenter', () => {
+            logo.style.transform = 'scale(1.05)';
+        });
+        
+        logo.addEventListener('mouseleave', () => {
+            logo.style.transform = '';
+        });
+
+        // Add Ripple Effect to All Buttons
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                // Remove any existing ripple
+                const ripple = this.querySelector('.ripple');
+                if (ripple) ripple.remove();
+                
+                // Create new ripple
+                const circle = document.createElement('span');
+                const diameter = Math.max(this.clientWidth, this.clientHeight);
+                const radius = diameter / 2;
+                
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${e.clientX - this.getBoundingClientRect().left - radius}px`;
+                circle.style.top = `${e.clientY - this.getBoundingClientRect().top - radius}px`;
+                circle.classList.add('ripple');
+                
+                this.appendChild(circle);
+            });
+        });
+
+        // Style for ripple effect
+        const rippleStyle = document.createElement('style');
+        rippleStyle.textContent = `
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background-color: rgba(255, 255, 255, 0.7);
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+            }
+            
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(rippleStyle);
+
+        // Close mobile menu on resize if window becomes larger
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navMenu.classList.remove('active');
+                const icon = mobileToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                icon.style.transform = 'rotate(0deg)';
+                
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+
+        // Random floating animation for breaking news label
+        const breakingLabel = document.querySelector('.breaking-label');
+        if (breakingLabel) {
+            breakingLabel.classList.add('float-animation');
+        }
+
+        // Add scroll-triggered animations
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            
+            // Parallax effect for main hero
+            const mainHero = document.querySelector('.main-hero');
+            if (mainHero) {
+                const speed = 0.5;
+                mainHero.style.transform = `translateY(${scrollY * speed}px)`;
+            }
+            
+            // Fade in elements as they enter viewport
+            document.querySelectorAll('.fade-in').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8) {
+                    el.classList.add('visible');
+                }
+            });
+        });
+
+        // Initialize fade-in elements
+        document.querySelectorAll('.featured-article, .category-block, .sidebar-widget').forEach((el, index) => {
+            el.classList.add('fade-in');
+            el.style.transitionDelay = `${index * 0.1}s`;
+        });
+    </script>
+</body>
+</html>
